@@ -12463,8 +12463,6 @@ Handlebars.template = Handlebars.VM.template;
       title: 'Improvement',
       chart: stat_results.improvement.chart
     }, percentagize(stat_results.improvement.results)));
-    console.log(stat_results.confidence.results.control);
-    console.log(stat_results.confidence.results.experiment);
     html = getTemplateOutput($('#results-template'), {
       results: results,
       permalink: permalink
