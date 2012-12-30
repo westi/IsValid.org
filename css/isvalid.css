@@ -130,6 +130,13 @@ body.permalink .header p {
 	font-family: 'Helvetica Neue', sans-serif;
 }
 
+.result.winner {
+	box-shadow: 0 0 6px 1px #31CE00;
+	padding: 0 20px;
+	box-sizing: border-box;
+	border-radius: 2px;
+}
+
 .result h3 {
 	float: left;
 	margin: 5px 0 0 5px;

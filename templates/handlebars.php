@@ -11,12 +11,16 @@ class Handlebars {
 		<script id="results-template" type="text/x-handlebars-template">
 			<div class="row">
 				{{#each results}}
-					<div class="result span6">
+					<div class="result span6 {{#if is_winner}}winner{{/if}}">
 						<h3>{{title}}</h3>
 						<div class="average">{{average}}%</div>
-						{{#if high}}
-							<div class="range">{{low}} – {{high}}</div>
-						{{/if}}
+						<div class="range">
+							{{#if high}}
+								{{low}} – {{high}}
+							{{else}}
+								{{winner}} is better
+							{{/if}}
+						</div>
 						<img src="{{chart}}" class="chart-image" alt="{{average}}">
 					</div>
 				{{/each}}

@@ -1,4 +1,4 @@
-/*! IsValid 2012-12-23
+/*! IsValid 2012-12-29
 * http://isvalid.org/
 * Copyright (c) 2012 Evan Solomon; Licensed GPL */
 
@@ -12437,6 +12437,7 @@ Handlebars.template = Handlebars.VM.template;
     results.push($.extend({
       title: 'Original',
       chart: stat_results.confidence.chart.control,
+      is_winner: stat_results.confidence.results.control.average >= stat_results.confidence.results.experiment.average,
       inputs: {
         conversions: parseInt(query.conversions_control, 10).approximate(),
         samples: parseInt(query.samples_control, 10).approximate()
@@ -12445,6 +12446,7 @@ Handlebars.template = Handlebars.VM.template;
     results.push($.extend({
       title: 'Experiment',
       chart: stat_results.confidence.chart.experiment,
+      is_winner: stat_results.confidence.results.experiment.average >= stat_results.confidence.results.control.average,
       inputs: {
         conversions: parseInt(query.conversions_experiment, 10).approximate(),
         samples: parseInt(query.samples_experiment, 10).approximate()
@@ -12452,14 +12454,17 @@ Handlebars.template = Handlebars.VM.template;
     }, percentagize(stat_results.confidence.results.experiment)));
     results.push($.extend({
       title: 'Significance',
-      chart: stat_results.significance.chart
+      chart: stat_results.significance.chart,
+      winner: stat_results.significance.results.control > 0.5 ? 'Original' : 'Experiment'
     }, percentagize({
-      average: stat_results.significance.results.experiment
+      average: Math.max(stat_results.significance.results.experiment, stat_results.significance.results.control)
     })));
     results.push($.extend({
       title: 'Improvement',
       chart: stat_results.improvement.chart
     }, percentagize(stat_results.improvement.results)));
+    console.log(stat_results.confidence.results.control);
+    console.log(stat_results.confidence.results.experiment);
     html = getTemplateOutput($('#results-template'), {
       results: results,
       permalink: permalink

@@ -162,6 +162,7 @@ renderResults = ( stat_results, query ) ->
 	results.push $.extend
 		title: 'Original'
 		chart: stat_results.confidence.chart.control
+		is_winner: stat_results.confidence.results.control.average >= stat_results.confidence.results.experiment.average
 		inputs:
 			conversions: parseInt( query.conversions_control, 10 ).approximate()
 			samples: parseInt( query.samples_control, 10 ).approximate()
@@ -171,6 +172,7 @@ renderResults = ( stat_results, query ) ->
 	results.push $.extend
 		title: 'Experiment'
 		chart: stat_results.confidence.chart.experiment
+		is_winner: stat_results.confidence.results.experiment.average >= stat_results.confidence.results.control.average
 		inputs:
 			conversions: parseInt( query.conversions_experiment, 10 ).approximate()
 			samples: parseInt( query.samples_experiment, 10 ).approximate()
@@ -180,7 +182,8 @@ renderResults = ( stat_results, query ) ->
 	results.push $.extend
 		title: 'Significance'
 		chart: stat_results.significance.chart
-	, percentagize { average: stat_results.significance.results.experiment }
+		winner: if stat_results.significance.results.control > 0.5 then 'Original' else 'Experiment'
+	, percentagize { average: Math.max stat_results.significance.results.experiment, stat_results.significance.results.control }
 
 	# Improvement
 	results.push $.extend

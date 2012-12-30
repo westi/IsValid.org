@@ -160,9 +160,15 @@ class API_Request {
 		}
 
 		$this->response['results'] = $significance;
+
+		if ( $this->get_params( array( 'winners_perspective' ) ) )
+			$chance = max( $significance['experiment'], $significance['control'] );
+		else
+			$chance = $significance['experiment'];
+
 		$this->response['chart'] = sprintf(
 			'http://chart.apis.google.com/chart?chxl=0:|&chxt=y&chs=500x250&chls=2|0&cht=gm&chd=t:%f',
-			$significance['experiment'] * 100
+			$chance * 100
 		);
 	}
 
@@ -250,9 +256,14 @@ class API_Request {
 
 		/* significance */
 		$this->response['significance']['results'] = $significance;
+		if ( $this->get_params( array( 'winners_perspective' ) ) )
+			$significance_probability = max( $significance['experiment'], $significance['control'] );
+		else
+			$significance_probability = $significance['experiment'];
+
 		$this->response['significance']['chart'] = sprintf(
 			'http://chart.apis.google.com/chart?chxl=0:|&chxt=y&chs=500x250&chls=2|0&cht=gm&chd=t:%f',
-			$significance['experiment'] * 100
+			$significance_probability * 100
 		);
 
 		/* improvement */
